@@ -2,21 +2,29 @@
 
 Servo vertServo;
 Servo horServo;
-int vertPos = 0;
-int horPos = 0;
-int pos = 0;
+int vPos = 0;
+int hPos = 0;
 
 void setup() {
-  vertServo.attach(9);
+  Serial.begin(9600);
+  vertServo.attach(8);
   horServo.attach(10);
 }
 
 void loop() {
-  for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
+  for (vPos = 0; vPos <= 180; vPos += 1) { // goes from 0 degrees to 180 degrees
     // in steps of 1 degree
-    vertServo.write(pos);
-    horServo.write(pos);
-    delay(15);
+    vertServo.write(vPos);
+    for (hPos = 0; hPos <= 1800; hPos += 1) {
+      horServo.write(hPos);
+      delay(150);
+    }
+    delay(150);
   }
 
+}
+
+void init_pos() {
+  vertServo.write(10);
+  horServo.write(0);
 }
