@@ -7,24 +7,27 @@ int hPos = 0;
 
 void setup() {
   Serial.begin(9600);
-  vertServo.attach(8);
-  horServo.attach(10);
+  vertServo.attach(9);
+  horServo.attach(8);
+  vertServo.write(vPos);
+  horServo.write(hPos);
 }
 
 void loop() {
-  for (vPos = 0; vPos <= 180; vPos += 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    vertServo.write(vPos);
-    for (hPos = 0; hPos <= 1800; hPos += 1) {
-      horServo.write(hPos);
+  // if button switches low -> high activate scan
+  // while button is high turn off the sense different state thing
+  // once button goes low turn it back on again
+
+  // horizontal scan
+  for (hPos = 1; hPos <= 180; hPos += 5) {
+    for (vPos = 1; vPos <= 120; vPos +=5) {
+      vertServo.write(vPos);
       delay(150);
     }
+    horServo.write(hPos);
     delay(150);
   }
-
-}
-
-void init_pos() {
-  vertServo.write(10);
+  vertServo.write(0);
   horServo.write(0);
+  delay(500);
 }
