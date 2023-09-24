@@ -1,34 +1,33 @@
 import serial
-import time
+import csv
+import datetime
+from time import sleep
 
-arduino = serial.Serial(port='COM6', baudrate=9600, timeout=0.1)
-arduino_port = "COM6"
-fileName = "analog-data.csv"
-samples = 10
-print_labels = False
+def read_and_store_serial_data(arduino_port, csv_filename, baud_rate=9600):
 
-print("Connected to Arduino port" + arduino_port)
-file = open(fileName, "a")
-print("created file")
-line = 0
+        ser = serial.Serial(arduino_port, baud_rate)
+        # Create or open the CSV file for writing
+        with open(csv_filename, 'w', newline='') as csvfile:
+            csv_writer = csv.writer(csvfile)
+            
+            # Write a header row to the CSV file
+            csv_writer.writerow(['Timestamp', 'Reading'])
 
-while line <= samples:
-    if print_labels:
-        if line == 0:
-            print("Printing Column Headers")
-        else:
-            print("Line" + str(line) + ": writing...")
-    getData = str(arduino.readline())
-    data = getData[0:]
-    print(data)
+            while True:
+                # Read data from the Arduino
+                serial_data = ser.readline().decode().strip()
+                
+                # Get the current timestamp
+                timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                
+                # Print and write the data to the CSV file
+                print(f"{timestamp}: {serial_data}")
+                csv_writer.writerow([timestamp, serial_data])
 
-#def write_read(x):
-  #  arduino.write(bytes(x, 'utf-8'))
-  #  time.sleep(0.05)
-  #  data = arduino.readline()
-   # return data
 
-#while True:
- #   num = input("Enter a number: ")
-  #  value = write_read(num)
-  #  print(value)
+
+if __name__ == "__main__":
+    arduino_port = 'COM6'  # Arduino's serial port
+    csv_filename = 'scan_data.csv'  # CSV file name
+    
+    read_and_store_serial_data(arduino_port, csv_filename)
