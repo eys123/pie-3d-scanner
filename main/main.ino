@@ -5,7 +5,7 @@ const int vertPin = 9;
 const int horPin = 8;
 int vStart = 80;
 int hStart = 50;
-int vEnd = 150;
+int vEnd = 140;
 int hEnd = 120;
 int vPos = vStart;
 int hPos = hStart;
@@ -31,12 +31,12 @@ void loop() {
   // check if button is pressed
   buttonState = digitalRead(buttonPin);
   if (buttonState == HIGH & prevButtonState == LOW) {
-    // execute horizontal movement
-    for (hPos = hStart; hPos <= hEnd; hPos +=1) {
-      horServo.write(hPos);
-      vertMovement();
-      delay(75);
+    for (vPos = vStart; vPos <= vEnd; vPos +=1) {
+      vertServo.write(vPos);
+      horMovement();
+      delay(50);
     }
+    // reset servos to starting positions
     vertServo.write(vStart);
     horServo.write(hStart);
   }
@@ -59,29 +59,29 @@ void printSensorInfo(int sensorVal, int sensorCoor[]) {
   Serial.println("]");
 }
 
-void vertMovement() {
+void horMovement() {
   /*
-    Vertical servo scanning movement.
-    Scans up on one scan, then scans downward on the next.
+    Horizontal servo scanning movement.
+    Scans right to left on one scan, then scans left to right on the next.
   */
-  if (vPos >= vEnd) {
-    for (vPos = vEnd; vPos >= vStart; vPos -=1) {
-      vertServo.write(vPos);
+  if (hPos >= hEnd) {
+    for (hPos = hEnd; hPos >= hStart; hPos -=1) {
+      horServo.write(hPos);
       sensorVal = analogRead(sensorPin);
       sensorCoor[0] = hPos;
       sensorCoor[1] = vPos;
       printSensorInfo(sensorVal, sensorCoor);
-      delay(75);
+      delay(50);
     }
   }
   else {
-    for (vPos = vStart; vPos <= vEnd; vPos +=1) {
-      vertServo.write(vPos);
+    for (hPos = hStart; hPos <= hEnd; hPos +=1) {
+      horServo.write(hPos);
       sensorVal = analogRead(sensorPin);
       sensorCoor[0] = hPos;
       sensorCoor[1] = vPos;
       printSensorInfo(sensorVal, sensorCoor);
-      delay(75);
+      delay(50);
     }
   }
 }
