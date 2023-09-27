@@ -3,7 +3,7 @@ Servo vertServo;
 Servo horServo;
 const int vertPin = 9;
 const int horPin = 8;
-int vStart = 54;
+int vStart = 60;
 int hStart = 50;
 int vEnd = 150;
 int hEnd = 120;
