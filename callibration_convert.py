@@ -8,7 +8,7 @@ def line_fit(xdata, ydata):
 
     
 
-    dist_true = np.poly1d((np.polyfit(xdata,ydata,2)))
+    dist_true = np.poly1d((np.polyfit(xdata,ydata,4)))
     return dist_true
 
 def read_data(csv_file, calib_dist):
