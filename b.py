@@ -28,7 +28,7 @@ for i in range(len(dist_list)):
      x = round(x, 2)
      y = round(y, 2)
      z = round(z, 2)
-     if y <= 45 and z >=-50:
+     if y <= 40 and z >=-50 and z <=-10:
       xlist.append(x)
       ylist.append(y)
       zlist.append(z)
