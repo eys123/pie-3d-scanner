@@ -1,4 +1,11 @@
+/*
+A program that uses two servos and a distance sensor
+in a pan-and-tilt mechanism to scan a figure.
+*/
+
 # include <Servo.h>
+
+// initialize Servo info
 Servo vertServo;
 Servo horServo;
 const int vertPin = 9;
@@ -10,10 +17,12 @@ int hEnd = 120;
 int vPos = vStart;
 int hPos = hStart;
 
+// init sensor variables
 const int sensorPin = A0;
 int sensorVal = 0;
 int sensorCoor[] = {0, 0};
 
+// init button variables
 const int buttonPin = 13;
 int buttonState = 0;
 int prevButtonState = 0;
@@ -22,6 +31,7 @@ void setup() {
   Serial.begin(9600);
   vertServo.attach(vertPin);
   horServo.attach(horPin);
+  // Set servos to starting positions
   vertServo.write(vPos);
   horServo.write(hPos);
   pinMode(buttonPin, INPUT);
@@ -31,8 +41,10 @@ void loop() {
   // check if button is pressed
   buttonState = digitalRead(buttonPin);
   if (buttonState == HIGH & prevButtonState == LOW) {
+    // run vertical servo scan
     for (vPos = vStart; vPos <= vEnd; vPos +=1) {
       vertServo.write(vPos);
+      // for each vertical position, run a horizontal scan
       horMovement();
       delay(50);
     }
@@ -49,7 +61,7 @@ void printSensorInfo(int sensorVal, int sensorCoor[]) {
     Args:
       sensorVal: an int recording the output value of the distance sensor.
       sensorCoor: an array containing 2 ints recording the horizontal servo angle
-      and the vertical servo angle.
+      and the vertical servo angle-- [hPos, vPos]
   */
   Serial.print(sensorVal);
   Serial.print(", [");
