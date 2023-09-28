@@ -1,4 +1,6 @@
-
+"""
+Function for converting spherical coordinates to cartesian.
+"""
 from ai import cs
 import math
 import numpy as np
