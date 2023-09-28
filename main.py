@@ -18,26 +18,36 @@ ydata = np.array([473, 423, 375, 334, 295, 265, 249, 219, 200, 184, 173, 165, 15
 # Generating the curve of best fit for callibration
 dist_convert = line_fit(ydata, xdata)
 # Pulling distance and angle readings from a saved csv file
-dist_list, angle_list = read_data("scan_data.csv", dist_convert)
+dist_list, angle_list = read_data("one_d_scan.csv", dist_convert)
+print(dist_list)
 # Callibrating coordinates and converting them from spherical to cartesian
 xlist = []
 ylist = []
 zlist = []
 for i in range(len(dist_list)):
-     x, y, z = convert_spherical_to_cartesian(angle_list[i][0], angle_list[i][1], dist_list[i])
-     x = round(x, 2)
-     y = round(y, 2)
-     z = round(z, 2)
-     if y <= 40 and z >=-50 and z <=-10:
+      x, y, z = convert_spherical_to_cartesian(angle_list[i][0], angle_list[i][1], dist_list[i])
+      x = round(x, 2)
+      y = round(y, 2)
+      z = round(z, 2)
+            #if y <= 40 and z >=-50 and z <=-10:
       xlist.append(x)
       ylist.append(y)
       zlist.append(z)
-
+print(xlist)
 # Plotting the point cloud data
+plt.scatter(xlist, ylist, s=2)
+plt.title("Overhead Point Cloud View")
+plt.ylabel("Y Distance (cm)")
+plt.xlabel("X Distance (cm)")
+
+
+
+
 fig=plt.figure()
 ax = plt.axes(projection='3d')
 ax.scatter(xlist, ylist,zlist, s=2)
-ax.set_xlabel('X Label')
-ax.set_ylabel('Y Label')
-ax.set_zlabel('Z Label')
+ax.set_xlabel('X Distance (cm)')
+ax.set_ylabel('Y Distance (cm)')
+ax.set_zlabel('Z Distance (cm)')
+plt.title('Scan Point Cloud')
 plt.show()

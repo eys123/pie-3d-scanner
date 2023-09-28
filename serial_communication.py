@@ -30,7 +30,7 @@ def read_and_store_serial_data(arduino_port, csv_filename, baud_rate=9600):
 
 if __name__ == "__main__":
     arduino_port = 'COM9'  # Arduino's serial port
-    csv_filename = 'scan_data.csv'  # CSV file name
+    csv_filename = 'one_d_scan.csv'  # CSV file name
     
     read_and_store_serial_data(arduino_port, csv_filename)
 
